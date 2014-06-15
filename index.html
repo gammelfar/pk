@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">	
+    <meta content='True' name='HandheldFriendly' />
+    <meta content='width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="apple-mobile-web-app-capable" content="yes" /> 
+
+    <script type="text/javascript">
+        function doesConnectionExist() {
+            var xhr = new XMLHttpRequest();
+            var file = "http://www.abeland.dk/services/pk/ping.png";
+            var randomNum = Math.round(Math.random() * 10000);
+     
+            xhr.open('HEAD', file + "?rand=" + randomNum, false);
+     
+            try {
+                xhr.send();
+         
+                if (xhr.status >= 200 && xhr.status < 304) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (e) {
+                return false;
+            }
+        }
+        
+        var iCnt = 0;
+        function startUp() {
+            if(doesConnectionExist()) {
+                window.location = "http://www.abeland.dk/services/pk/sync.php?DEV=1";
+                setTimeout(function(){startUp();},30000);
+            } else {
+                iCnt++;
+                var f = document.getElementById("fail");
+                f.innerHTML = "<center><br><br>Kan ikke få forbindelse til internettet.<br>Denne app skal have adgang til internettet for at kunne starte op.<br><br><br></center>";
+                document.getElementById("check").innterHTML = "";
+                setTimeout(function(){document.getElementById("check").innerHTML="<center>Søger efter internet...<br>("+iCnt+" forsøg)</center>";startUp();},5000);
+            }
+        }
+
+        setTimeout(function(){startUp();},100);
+    </script>
+</head>
+<body>
+<div id="fail">
+</div>
+<div id="check">
+</div>
+
+</body>
+</html>
