@@ -31,7 +31,7 @@
         var iCnt = 0;
         function startUp() {
             if(doesConnectionExist()) {
-                window.location = "http://www.abeland.dk/services/pk/sync.php?DEV=1";
+                window.location = "http://www.abeland.dk/services/pk/php/sync.php?DEV=1";
                 setTimeout(function(){startUp();},30000);
             } else {
                 iCnt++;
