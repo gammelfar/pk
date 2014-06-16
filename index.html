@@ -8,6 +8,11 @@
     <meta name="apple-mobile-web-app-capable" content="yes" /> 
 
     <script type="text/javascript">
+        var global = {};
+        global.connected = false;
+    </script>
+    
+    <script type="text/javascript">
         function doesConnectionExist() {
             var xhr = new XMLHttpRequest();
             var file = "http://www.abeland.dk/services/pk/ping.png";
@@ -28,46 +33,36 @@
             }
         }
         
-        var iCnt = 0;
-        function startUp() {
-            if(doesConnectionExist()) {
-                window.location = "http://www.abeland.dk/services/pk/php/sync.php?DEV=1";
-                setTimeout(function(){startUp();},30000);
-            } else {
-                iCnt++;
-                var f = document.getElementById("fail");
-                f.innerHTML = "<center><br><br>Kan ikke få forbindelse til internettet.<br>Denne app skal have adgang til internettet for at kunne starte op.<br><br><br></center>";
-                document.getElementById("check").innterHTML = "";
-                setTimeout(function(){document.getElementById("check").innerHTML="<center>Søger efter internet...<br>("+iCnt+" forsøg)</center>";startUp();},5000);
+        function testConnection() {
+            if(!doesConnectionExist()) {
+                var f = document.getElementById("full");
+                f.innerHTML = "<center><br><br>Kan ikke få forbindelse til internettet.<br>Denne app skal have adgang til internettet for at virke.<br>Genstart app'en!<br><br></center>";
             }
+            setTimeout(function(){testConnection();},10000);
         }
 
-        //setTimeout(function(){startUp();},100);
-        
-        
+        setTimeout(function(){testConnection();},5000);
     </script>
 </head>
 <body>
-<div id="fail">
-</div>
-<div id="check">
-</div>
+<div id="full" class="layFullscreen" style="z-index:1;visibility: hidden">
 <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
-            <p><a href="#" class="topcoat-button" id="scan">SCAN</a></p>
-            <p><a href="#" class="topcoat-button" id="encode">ENCODE</a></p>
-            <p id="info"></p>
-        </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="barcodescanner.js"></script>
-        <script type="text/javascript" src="childbrowser.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-        </script>
+    <div id="deviceready" class="blink">
+        <p class="event listening">Connecting to Device</p>
+        <p class="event received">Device is Ready</p>
+    </div>
+    <p><a href="#" class="topcoat-button" id="scan">SCAN</a></p>
+    <p><a href="#" class="topcoat-button" id="encode">ENCODE</a></p>
+    <p id="info"></p>
+</div>
+</div>
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="barcodescanner.js"></script>
+<script type="text/javascript" src="childbrowser.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript">
+    app.initialize();
+</script>
+<script type="text/javascript" src="http://www.abeland.dk/services/pk/php/sync.php?DEV=1></script>
 </body>
 </html>
