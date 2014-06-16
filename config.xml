@@ -30,7 +30,8 @@
         <param name="android-package" value="com.phonegap.plugins.barcodescanner.BarcodeScanner" />
     </feature>
 
-        
+    <uses-permission android:name="android.permission.CAMERA" />
+
     
 
     <!-- Customize your app and platform with the preference element. -->
