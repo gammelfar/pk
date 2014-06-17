@@ -9,7 +9,7 @@
 
     <script type="text/javascript">
         var global = {};
-        global.connected = false;
+        global.connected = true;
     </script>
     
     <script type="text/javascript">
@@ -35,27 +35,23 @@
         
         function testConnection() {
             if(!doesConnectionExist()) {
+                global.connected = false;
                 var f = document.getElementById("full");
                 f.innerHTML = "<center><br><br>Kan ikke få forbindelse til internettet.<br>Denne app skal have adgang til internettet for at virke.<br>Genstart app'en!<br><br></center>";
+                setTimeout(function(){testConnection();},2000);
+            } else {
+                if(!global.connected) {
+                    location.reload();
+                }             
+                setTimeout(function(){testConnection();},10000);
             }
-            setTimeout(function(){testConnection();},10000);
         }
 
         setTimeout(function(){testConnection();},5000);
     </script>
 </head>
 <body>
-<div id="full" class="layFullscreen" style="z-index:1;visibility: hidden">
-<div class="app">
-    <div id="deviceready" class="blink">
-        <p class="event listening">Connecting to Device</p>
-        <p class="event received">Device is Ready</p>
-    </div>
-    <p><a href="#" class="topcoat-button" id="scan">SCAN</a></p>
-    <p><a href="#" class="topcoat-button" id="encode">ENCODE</a></p>
-    <p id="info"></p>
-</div>
-</div>
+<div id="full" class="layFullscreen" style="z-index:1;visibility: hidden"></div>
 <script type="text/javascript" src="cordova.js"></script>
 <script type="text/javascript" src="barcodescanner.js"></script>
 <script type="text/javascript" src="childbrowser.js"></script>
